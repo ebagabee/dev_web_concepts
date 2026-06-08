@@ -19,3 +19,26 @@ JSX eh acucar sintatica que vira React.createElement(...). Nao eh HTML - Eh Java
 const el = <h1 className="title">Ola {nome}</h1>;
 // Vira: React.createElement('h1', {className: 'title'}, 'Ola ', nome)
 ```
+
+Pontos que caem em entrevista:
+
+- `className` em vez de `class`, `htmlFor` em vez de `for` (Sao palavras reservadas em JS).
+- {} injeta qualquer expressao JS. Nao aceita `if`/`for` (sao statements), por isso se usa operador ternario e `.map()`.
+- Todo componente precisa retornar um unico no raiz, ou usar Fragment `<>...</>`.
+
+## 1.3 Props e Estado
+
+- Props: dados que descem do pai. Imutaveis dentro do filho.
+- State: dados internos do componente que, quando mudam, disparam re-rder.
+
+Dados em React fluem so para baixo (one-way). Para o filho avisar o pai, o pai passa uma funcao como prop e o filho a chama
+
+```ts
+function Pai() {
+  const [nome, setNome] = useState('');
+  return <Filho onMudar={setNome} />; // passa o "emit" como prop
+}
+function Filho({ onMudar }) {
+  return <input onChange={e => onMudar(e.target.value)} />;
+}
+```
